@@ -9,3 +9,4 @@ router.get("/", jwtSession.validateUser, projectController.getAll);
 router.post("/", jwtSession.validateUser, projectController.post);
 router.put("/:id", jwtSession.validateUser, projectController.put);
 router.delete("/:id", jwtSession.validateUser, projectController.del);
+router.post("/", jwtSession.validateUser, projectController.copy);

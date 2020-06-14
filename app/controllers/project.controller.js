@@ -52,12 +52,27 @@ const del = async (req, res) => {
   try {
     const project = await getProject(req, res);
     if (project.loginId !== req.user.id) {
-      res.status(403).send("You can only delete your own projects.");
+      res.status(401).send("You can only delete your own projects.");
       return;
     }
 
     await projectService.del(req.user.id, req.params.id);
     res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const copy = async (req, res) => {
+  try {
+    const project = await getProject(req, res);
+    if (project.loginId !== req.user.id) {
+      res.status(401).send("You can only copy your own projects.");
+      return;
+    }
+
+    await projectService.copy(req.user.id, req.params.id);
+    res.sendStatus(201);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -78,5 +93,6 @@ module.exports = {
   getById,
   post,
   put,
-  del
+  del,
+  copy
 };

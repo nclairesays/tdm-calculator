@@ -98,10 +98,22 @@ const del = async (loginId, id) => {
   }
 };
 
+const copy = async (loginId, projectId) => {
+  try {
+    await mssql.executeProc("Project_Copy", sqlRequest => {
+      sqlRequest.addParameter("loginId", TYPES.Int, loginId);
+      sqlRequest.addParameter("id", TYPES.Int, projectId);
+    });
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   post,
   put,
-  del
+  del,
+  copy
 };
